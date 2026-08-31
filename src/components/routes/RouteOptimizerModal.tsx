@@ -436,7 +436,7 @@ export const RouteOptimizerModal: React.FC<RouteOptimizerModalProps> = () => {
         {/* Footer */}
         <div className="p-4 px-6 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
           <span className="text-xs text-slate-500">
-            Powered by LifeOS Google Maps Route Engine
+            Powered by LifeOS Google Maps Routing Engine
           </span>
           <button
             onClick={() => setIsRouteOptimizerOpen(false)}
