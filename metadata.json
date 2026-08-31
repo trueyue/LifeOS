@@ -1,0 +1,8 @@
+{
+  "name": "LifeOS",
+  "description": "An intelligent AI-powered personal life manager that automatically organizes your appointments, bills, subscriptions, warranties, documents, and reminders from natural language.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
