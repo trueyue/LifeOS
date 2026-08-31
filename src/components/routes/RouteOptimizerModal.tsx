@@ -41,12 +41,14 @@ export const RouteOptimizerModal: React.FC<RouteOptimizerModalProps> = () => {
     updateItem,
   } = useItems();
 
+  const [customStops, setCustomStops] = useState<LifeItem[]>([]);
+
   // Find all items that have either a location or an address
-  const eligibleItems = useMemo(() => {
-    return items.filter(
-      (item) => !item.completed && (item.location || item.locationAddress || item.vendor)
-    );
-  }, [items]);
+  const eligibleItems: LifeItem[] = useMemo(() => {
+    return [...items.filter(
+      (item: LifeItem) => !item.completed && (item.location || item.locationAddress || item.vendor)
+    ), ...customStops];
+  }, [items, customStops]);
 
   // Selected item IDs for the route
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
@@ -99,7 +101,7 @@ export const RouteOptimizerModal: React.FC<RouteOptimizerModalProps> = () => {
       date: new Date().toISOString().split('T')[0],
       time: null,
       reminderDate: null,
-      reminderTiming: null,
+      reminderTiming: 'none',
       amount: null,
       vendor: customPlace || customTitle,
       location: customPlace || customTitle,
@@ -118,7 +120,7 @@ export const RouteOptimizerModal: React.FC<RouteOptimizerModalProps> = () => {
       updatedAt: new Date().toISOString(),
     };
 
-    eligibleItems.push(newItem);
+    setCustomStops((prev) => [...prev, newItem]);
     setSelectedItemIds((prev) => [...prev, newItem.id]);
     setCustomTitle('');
     setCustomAddress('');
@@ -274,10 +276,12 @@ export const RouteOptimizerModal: React.FC<RouteOptimizerModalProps> = () => {
                 const addressDisplay = item.locationAddress || item.location || 'Local Destination';
 
                 return (
-                  <div
+                  <button
                     key={item.id}
+                    type="button"
+                    aria-pressed={isSelected}
                     onClick={() => toggleItemSelection(item.id)}
-                    className={`p-3 rounded-2xl border cursor-pointer flex items-start gap-3 transition-all ${
+                    className={`w-full p-3 rounded-2xl border cursor-pointer flex items-start gap-3 transition-all text-left ${
                       isSelected
                         ? 'border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/40 text-indigo-950 dark:text-indigo-100 ring-2 ring-indigo-600/20'
                         : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
@@ -307,7 +311,7 @@ export const RouteOptimizerModal: React.FC<RouteOptimizerModalProps> = () => {
                         <span>{addressDisplay}</span>
                       </p>
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>
